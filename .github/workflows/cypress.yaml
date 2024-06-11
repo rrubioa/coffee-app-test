@@ -1,0 +1,26 @@
+name: Cypress Tests
+
+on: [push, pull_request]
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - run: npm install
+      - run: npx cypress install
+      - name: Run Cypress tests
+        run: npx cypress run
+      - name: Merge Cypress JSON Reports
+        run: npx mochawesome-merge cypress/reports/.jsons/*.json > cypress/reports/mochawesome.json
+      - name: Generate Cypress HTML Report
+        run: npx mochawesome-report-generator cypress/reports/mochawesome.json
+      - name: Upload Cypress Report
+        uses: actions/upload-artifact@v2
+        with:
+          name: cypress-report
+          path: mochawesome-report
