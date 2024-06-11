@@ -1,0 +1,14 @@
+/docs/
+
+.commit
+
+# Artifacts
+cypress/reports
+mochawesome-report
+*.zip
+
+# Log files
+*.log
+
+# dependencies
+node_modules
